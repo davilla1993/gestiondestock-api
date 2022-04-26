@@ -1,0 +1,51 @@
+                Conception d'une application de gestion de stock de type Saas
+
+On souhaite développer une application de gestion de stock pour répondre aux besoins de nos clients.
+Cette application permettra de :
+	- Créer des profils pour chaque entreprise
+		* Une entreprise a un ou plusieurs utilisateurs
+	- Paramétrer les catégories d'articles (produits)
+		* Une entreprise a un ou plusieurs articles (produits)
+		* Une entreprise a un ou plusieurs clients et fournisseurs
+	- Passer des commandes clients
+		* Une commande client a un seul client
+		* Une commande client a un ou plusieurs articles (produits)
+		* Une commande client aeffectue une sortie de stock pour les articles en question
+	- Passer commandes fournisseurs
+		* Une commande fournisseur a un seul fournisseur
+		* Une commande fournisseur a un ou plusieurs articles (produits)
+		* Une commande fournisseur effectue une entrée de stock pour les articles en question
+	- Effectuer des ventes au magasin
+		* Une vente a un ou plusieurs articles
+		* Une vente effectue une sortie de stock pour les articles en question
+	- Consulter l'état du stock de chaque article
+		* Voire la quantité de stock de l'article en temps réel
+		* Effectuer des corrections de stock
+	- Envoyer automatiquement un email aux fournisseurs lors de la création d'une nouvelle commande fournisseur en se basant sur 			un template prédéfini.
+	-Envoyer automatiquement un email de confirmation aux clients lors de la creation de la commande client en utilisant un 		template predéfini 
+
+	- Afficher une notification lorsqu'un article ou produit atteint un seuil minimum de stock
+	- Afficher  les statistiques dans un tableau de bord
+	-  Offrir un historique des commandes pour les clients et les fournisseurs
+	-  Afficher un etat d'avancement des commandes
+
+Plan de travail : Roadmap 
+Backend: 
+	- Conception (UML: diagramme de classes)
+	- Créer un projet Spring boot
+	- Configurer le projet
+	- Créer des entités (models), les servies ...
+	- Configurer Swagger (API Documentation)
+	- Générer le swagger.json => Génerer les services, modeles pour l'application Front
+
+Frontend:
+	- Créer et expliquer le projet Angular
+	- Découper l'application en components
+	- Créer les components
+	- Créer les services
+	- Développer les interfaces
+
+DevOps: 
+
+	- Créer des images Docker (BDD, Backend, Frontend)
+	- Faire fonctionner l'application en dehors des IDE
