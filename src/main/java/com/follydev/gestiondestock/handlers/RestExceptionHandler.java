@@ -2,7 +2,7 @@ package com.follydev.gestiondestock.handlers;
 
 import com.follydev.gestiondestock.exceptions.EntityNotFoundException;
 import com.follydev.gestiondestock.exceptions.ErrorCodes;
-import com.follydev.gestiondestock.exceptions.InvalidEntityException;
+import com.follydev.gestiondestock.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -41,6 +41,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
                 .build();
 
         return new ResponseEntity<>(errorDto, badRequest);
+    }
+
+    @ExceptionHandler(InvalidOperationException.class)
+    public ResponseEntity<ErrorDto> handleException(InvalidOperationException exception, WebRequest webRequest){
+        final HttpStatus invalidOperation = HttpStatus.BAD_REQUEST;
+
+        final ErrorDto errorDto = ErrorDto.builder()
+                .code(exception.getErrorCode())
+                .httpCode(invalidOperation.value())
+                .message(exception.getMessage())
+                .errors(exception.getErrors())
+                .build();
+
+        return new ResponseEntity<>(errorDto, invalidOperation);
     }
 
     @ExceptionHandler(BadCredentialsException.class)

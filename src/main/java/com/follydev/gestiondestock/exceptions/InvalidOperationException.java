@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.List;
 
-public class EntityNotFoundException extends RuntimeException{
+public class InvalidOperationException extends RuntimeException{
 
     @Getter
     private ErrorCodes errorCode;
@@ -12,25 +12,25 @@ public class EntityNotFoundException extends RuntimeException{
     @Getter
     private List<String> errors;
 
-    public EntityNotFoundException(String message){
+    public InvalidOperationException(String message){
         super(message);
     }
 
-    public EntityNotFoundException(String message, Throwable cause){
+    public InvalidOperationException(String message, Throwable cause){
         super(message, cause);
     }
 
-    public EntityNotFoundException(String message, Throwable cause, ErrorCodes errorCode){
+    public InvalidOperationException(String message, Throwable cause, ErrorCodes errorCode){
         super(message, cause);
         this.errorCode = errorCode;
     }
 
-    public EntityNotFoundException(String message, ErrorCodes errorCode){
+    public InvalidOperationException(String message, ErrorCodes errorCode){
         super(message);
         this.errorCode = errorCode;
     }
 
-    public EntityNotFoundException(String message, ErrorCodes errorCode, List<String> errors){
+    public InvalidOperationException(String message, ErrorCodes errorCode, List<String> errors){
         super(message);
         this.errorCode = errorCode;
         this.errors = errors;

@@ -1,6 +1,7 @@
 package com.follydev.gestiondestock.dto;
 
 import com.follydev.gestiondestock.models.CommandeClient;
+import com.follydev.gestiondestock.models.EtatCommande;
 import lombok.*;
 
 import java.time.Instant;
@@ -16,6 +17,10 @@ public class CommandeClientDto {
 
     private Instant dateCommande;
 
+    private Integer idEntreprise;
+
+    private EtatCommande etatCommande;
+
     private ClientDto client;
 
     private List<LigneCommandeClientDto> ligneCommandeClients;
@@ -29,6 +34,9 @@ public class CommandeClientDto {
                 .id(commandeClient.getId())
                 .code(commandeClient.getCode())
                 .dateCommande(commandeClient.getDateCommande())
+                .etatCommande(commandeClient.getEtatCommande())
+                .client(ClientDto.fromEntity(commandeClient.getClient()))
+                .idEntreprise(commandeClient.getIdEntreprise())
                 .build();
     }
 
@@ -41,7 +49,13 @@ public class CommandeClientDto {
         commandeClient.setId(commandeClientDto.getId());
         commandeClient.setCode(commandeClientDto.getCode());
         commandeClient.setDateCommande(commandeClientDto.getDateCommande());
+        commandeClient.setEtatCommande(commandeClientDto.getEtatCommande());
+        commandeClient.setIdEntreprise(commandeClientDto.getIdEntreprise());
 
         return commandeClient;
+    }
+
+    public boolean isCommandeLivree(){
+        return EtatCommande.LIVREE.equals(this.etatCommande);
     }
 }
