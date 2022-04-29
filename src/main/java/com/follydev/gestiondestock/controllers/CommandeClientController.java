@@ -2,6 +2,7 @@ package com.follydev.gestiondestock.controllers;
 
 import com.follydev.gestiondestock.controllers.api.CommandeClientApi;
 import com.follydev.gestiondestock.dto.CommandeClientDto;
+import com.follydev.gestiondestock.dto.LigneCommandeClientDto;
 import com.follydev.gestiondestock.models.EtatCommande;
 import com.follydev.gestiondestock.services.CommandeClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class CommandeClientController implements CommandeClientApi {
     }
 
     @Override
+    public ResponseEntity<CommandeClientDto> updateArticle(Integer idCommande, Integer idLigneCommande, Integer idArticle) {
+        return ResponseEntity.ok(commandeClientService.updateArticle(idCommande, idLigneCommande, idArticle));
+    }
+
+    @Override
     public ResponseEntity<CommandeClientDto> findById(Integer id) {
         return ResponseEntity.ok(commandeClientService.findById(id));
     }
@@ -55,6 +61,17 @@ public class CommandeClientController implements CommandeClientApi {
     @Override
     public ResponseEntity<List<CommandeClientDto>> findAll() {
         return ResponseEntity.ok(commandeClientService.findAll());
+    }
+
+
+    @Override
+    public ResponseEntity<List<LigneCommandeClientDto>> findAllLignesCommandesClientsByCommandeClientId(Integer idCommande) {
+        return ResponseEntity.ok(commandeClientService.findAllLignesCommandesClientsByCommandeClientId(idCommande));
+    }
+
+    @Override
+    public ResponseEntity<CommandeClientDto> deleteArticle(Integer idCommande, Integer idLigneCommande) {
+        return ResponseEntity.ok(commandeClientService.deleteArticle(idCommande, idLigneCommande));
     }
 
     @Override

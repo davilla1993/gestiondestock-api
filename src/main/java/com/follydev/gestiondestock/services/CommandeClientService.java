@@ -18,6 +18,11 @@ public interface CommandeClientService {
 
     CommandeClientDto updateClient(Integer idCommande, Integer idClient);
 
+    CommandeClientDto updateArticle(Integer idCommande, Integer idLigneCommande, Integer idArticle);
+
+    // delete LigneCommandeArticle
+    CommandeClientDto deleteArticle(Integer idCommande, Integer idLigneCommande);
+
     CommandeClientDto findById(Integer id);
 
     CommandeClientDto findByCode(String code);

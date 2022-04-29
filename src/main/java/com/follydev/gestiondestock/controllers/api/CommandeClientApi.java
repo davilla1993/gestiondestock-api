@@ -2,6 +2,7 @@ package com.follydev.gestiondestock.controllers.api;
 
 import com.follydev.gestiondestock.dto.ClientDto;
 import com.follydev.gestiondestock.dto.CommandeClientDto;
+import com.follydev.gestiondestock.dto.LigneCommandeClientDto;
 import com.follydev.gestiondestock.models.EtatCommande;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +27,7 @@ public interface CommandeClientApi {
     })
     ResponseEntity<CommandeClientDto> save(@RequestBody CommandeClientDto commandeClientDto);
 
-    @PostMapping(APP_ROOT + "/commandeClients/update/etat/{idCommande}/{etatCommande}")
+    @PatchMapping(APP_ROOT + "/commandeClients/update/etat/{idCommande}/{etatCommande}")
     @ApiOperation(value = "Modifier l'etat d'une commande client", notes = "Cette méthode permet de modifier l'etat d'une commande client", response = CommandeClientDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La commande client a été modifiée avec succès"),
@@ -35,7 +36,7 @@ public interface CommandeClientApi {
     ResponseEntity<CommandeClientDto> updateEtatCommande(@PathVariable("idCommande") Integer idCommande,
                                                          @PathVariable("etatCommande")EtatCommande etatCommande);
 
-    @PostMapping(APP_ROOT + "/commandeClients/update/quantite/{idCommande}/{idLigneCommande}/{quantite}")
+    @PatchMapping(APP_ROOT + "/commandeClients/update/quantite/{idCommande}/{idLigneCommande}/{quantite}")
     @ApiOperation(value = "Modifier la quantite d'une commande client", notes = "Cette méthode permet de modifier la quantite d'une commande client", response = CommandeClientDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La quantite a été modifiée avec succès"),
@@ -45,13 +46,24 @@ public interface CommandeClientApi {
        @PathVariable("idLigneCommande")Integer idLigneCommande, @PathVariable("quantite")BigDecimal quantite);
 
 
-    @PostMapping(APP_ROOT + "/commandeClients/update/client/{idCommande}/{idClient}")
+    @PatchMapping(APP_ROOT + "/commandeClients/update/client/{idCommande}/{idClient}")
     @ApiOperation(value = "Modifier le client", notes = "Cette méthode permet de modifier le client", response = CommandeClientDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Le client a été modifiée avec succès"),
             @ApiResponse(code = 400, message = "La client n'est pas valide")
     })
-    ResponseEntity<CommandeClientDto> updateClient(Integer idCommande, Integer idClient);
+    ResponseEntity<CommandeClientDto> updateClient(@PathVariable("idCommande") Integer idCommande,
+                                                   @PathVariable("idClient") Integer idClient);
+
+    @PatchMapping(APP_ROOT + "/commandeClients/update/article/{idCommande}/{idLigneCommande}/{idArticle}")
+    @ApiOperation(value = "Modifier les articles", notes = "Cette méthode permet de modifier les articles sur une commande", response = CommandeClientDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "L'article a été modifiée avec succès"),
+            @ApiResponse(code = 400, message = "L'article n'est pas valide")
+    })
+    ResponseEntity<CommandeClientDto> updateArticle(@PathVariable("idCommande") Integer idCommande,
+        @PathVariable("idLigneCommande")Integer idLigneCommande, @PathVariable("idArticle") Integer idArticle);
+
 
     @GetMapping(APP_ROOT + "/commandeClients/{idCommandeClient}")
     @ApiOperation(value = "Rechercher une commande client par son ID", notes = "Cette méthode permet de rechercher une commande client par son ID", response = CommandeClientDto.class)
@@ -75,6 +87,22 @@ public interface CommandeClientApi {
             @ApiResponse(code = 200, message = "La liste des commandes clients / Une liste vide")
     })
     ResponseEntity<List<CommandeClientDto>> findAll();
+
+    @GetMapping(APP_ROOT + "/commandeClients/LigneCommande/{idCommande}")
+    @ApiOperation(value = "Consulter toutes les lignes commandes", notes = "Cette méthode permet de toutes les lignes commandes relatives à une commande", responseContainer = "List<CommandeClientDto.class>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "L'article a été supprimé avec succès"),
+    })
+    ResponseEntity<List<LigneCommandeClientDto>> findAllLignesCommandesClientsByCommandeClientId(@PathVariable("idCommande") Integer idCommande);
+
+
+    @PatchMapping(APP_ROOT + "/commandeClients/delete/article/{idCommande}/{idLigneCommande}")
+    @ApiOperation(value = "Supprimer un article", notes = "Cette méthode permet de supprimer les articles sur une commande", response = CommandeClientDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "L'article a été supprimé avec succès"),
+            @ApiResponse(code = 400, message = "L'artice n'est pas valide")
+    })
+    ResponseEntity<CommandeClientDto> deleteArticle(@PathVariable("idCommande")Integer idCommande, @PathVariable("idLigneCommande")Integer idLigneCommande);
 
     @DeleteMapping(APP_ROOT + "/commandeClients/delete{idCommandeClient}")
     @ApiOperation(value = "Supprimer une commande client", notes = "Cette méthode permet de supprimer une commande client", response= CommandeClientDto.class)
