@@ -1,6 +1,7 @@
 package com.follydev.gestiondestock.dto;
 
 import com.follydev.gestiondestock.models.CommandeFournisseur;
+import com.follydev.gestiondestock.models.EtatCommande;
 import lombok.*;
 
 import java.time.Instant;
@@ -17,6 +18,10 @@ public class CommandeFournisseurDto {
 
     private FournisseurDto fournisseur;
 
+    private EtatCommande etatCommande;
+
+    private Integer idEntreprise;
+
     private List<LigneCommandeFournisseurDto> ligneCommandeFournisseurs;
 
     public static CommandeFournisseurDto fromEntity(CommandeFournisseur commandeFournisseur){
@@ -28,8 +33,8 @@ public class CommandeFournisseurDto {
                 .id(commandeFournisseur.getId())
                 .code(commandeFournisseur.getCode())
                 .dateCommande(commandeFournisseur.getDateCommande())
-                .etatCommande(commandeFournisseur.getEtatCommande())
                 .idEntreprise(commandeFournisseur.getIdEntreprise())
+                .etatCommande(commandeFournisseur.getEtatCommande())
                 .build();
     }
 
