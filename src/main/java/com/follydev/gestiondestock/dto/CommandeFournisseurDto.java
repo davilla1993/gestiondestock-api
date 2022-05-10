@@ -28,6 +28,8 @@ public class CommandeFournisseurDto {
                 .id(commandeFournisseur.getId())
                 .code(commandeFournisseur.getCode())
                 .dateCommande(commandeFournisseur.getDateCommande())
+                .etatCommande(commandeFournisseur.getEtatCommande())
+                .idEntreprise(commandeFournisseur.getIdEntreprise())
                 .build();
     }
 
@@ -40,6 +42,8 @@ public class CommandeFournisseurDto {
             commandeFournisseur.setId(commandeFournisseurDto.getId());
             commandeFournisseur.setCode(commandeFournisseurDto.getCode());
             commandeFournisseur.setDateCommande(commandeFournisseurDto.getDateCommande());
+            commandeFournisseur.setEtatCommande(commandeFournisseurDto.getEtatCommande());
+            commandeFournisseur.setIdEntreprise(commandeFournisseurDto.getIdEntreprise());
 
             return commandeFournisseur;
     }
