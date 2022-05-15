@@ -2,6 +2,9 @@ package com.follydev.gestiondestock.controllers;
 
 import com.follydev.gestiondestock.controllers.api.ArticleApi;
 import com.follydev.gestiondestock.dto.ArticleDto;
+import com.follydev.gestiondestock.dto.LigneCommandeClientDto;
+import com.follydev.gestiondestock.dto.LigneCommandeFournisseurDto;
+import com.follydev.gestiondestock.dto.LigneVenteDto;
 import com.follydev.gestiondestock.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,14 +33,32 @@ public class ArticleController implements ArticleApi {
 
     @Override
     public ArticleDto findByCodeArticle(String codeArticle) {
-
         return articleService.findByCodeArticle(codeArticle);
     }
 
     @Override
     public List<ArticleDto> findAll() {
-
         return articleService.findAll();
+    }
+
+    @Override
+    public List<LigneVenteDto> findHistoriqueVentes(Integer idArticle) {
+        return articleService.findHistoriqueVentes(idArticle);
+    }
+
+    @Override
+    public List<LigneCommandeClientDto> findHistoriqueCommandeClient(Integer idArticle) {
+        return articleService.findHistoriqueCommandeClient(idArticle);
+    }
+
+    @Override
+    public List<LigneCommandeFournisseurDto> findHistoriqueCommandeFournisseur(Integer idArticle) {
+        return articleService.findHistoriqueCommandeFournisseur(idArticle);
+    }
+
+    @Override
+    public List<ArticleDto> findAllArticleByIdCategory(Integer idCatgegory) {
+        return articleService.findAllArticleByIdCategory(idCatgegory);
     }
 
     @Override

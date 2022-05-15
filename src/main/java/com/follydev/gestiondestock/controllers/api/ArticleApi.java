@@ -1,6 +1,9 @@
 package com.follydev.gestiondestock.controllers.api;
 
 import com.follydev.gestiondestock.dto.ArticleDto;
+import com.follydev.gestiondestock.dto.LigneCommandeClientDto;
+import com.follydev.gestiondestock.dto.LigneCommandeFournisseurDto;
+import com.follydev.gestiondestock.dto.LigneVenteDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -36,7 +39,7 @@ public interface ArticleApi {
     ArticleDto findById(@PathVariable("idArticle") Integer id);
 
 
-    @GetMapping(value = APP_ROOT + "/articles/{codeArticle}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/articles/filter/{codeArticle}", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Rechercher un article par son CODE", notes = "Cette méthode permet de rechercher un article par son CODE", response = ArticleDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "L'article a été trouvé dans la BDD"),
@@ -50,6 +53,35 @@ public interface ArticleApi {
             @ApiResponse(code = 200, message = "La liste des articles / Une liste vide")
     })
     List<ArticleDto> findAll();
+
+    @GetMapping(value = APP_ROOT + "/articles/historique/vente/{idArticle}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Renvoyer l'historique de toutes les ventes", notes = "Cette méthode renvoi l'historique de toutes les ventes d'un article" +
+            "dont l'ID est passé en paramètre", responseContainer = "List<LigneVenteDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des vente / Une liste vide")
+    })
+    List<LigneVenteDto> findHistoriqueVentes(@PathVariable("idArticle") Integer idArticle);
+
+    @GetMapping(value = APP_ROOT + "/articles/historique/commandeClient/{idArticle}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Renvoyer l'historique d'une commande client", notes = "Cette méthode renvoi l'historique d'une commande client", responseContainer = "List<LigneCommandeClientDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des commande / Une liste vide")
+    })
+    List<LigneCommandeClientDto> findHistoriqueCommandeClient(@PathVariable("idArticle")Integer idArticle);
+
+    @GetMapping(value = APP_ROOT + "/articles/historique/commandeFournisseur/{idArticle}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Renvoyer l'historique d'une commande fournisseur", notes = "Cette méthode renvoi l'historique d'une commande fournisseur", responseContainer = "List<LigneCommandeFournisseurDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des commande / Une liste vide")
+    })
+    List<LigneCommandeFournisseurDto> findHistoriqueCommandeFournisseur(@PathVariable("idArticle")Integer idArticle);
+
+    @GetMapping(value = APP_ROOT + "/articles/historique/filter/category/{idCategory}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Renvoyer tous ls articles d'une categorie", notes = "Cette méthode renvoi tous les articles d'une catégorie", responseContainer = "List<ArticleDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des commande / Une liste vide")
+    })
+    List<ArticleDto> findAllArticleByIdCategory(@PathVariable("idCategory")Integer idCatgegory);
 
     @GetMapping(value = APP_ROOT + "/articles/delete/{idArticle}", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Supprimer un article", notes = "Cette méthode permet de supprimer un article", response= ArticleDto.class)
