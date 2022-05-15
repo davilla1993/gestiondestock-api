@@ -1,6 +1,7 @@
 package com.follydev.gestiondestock.dto;
 
 import com.follydev.gestiondestock.models.MvtStk;
+import com.follydev.gestiondestock.models.SourceMvtStk;
 import com.follydev.gestiondestock.models.TypeMvtStk;
 import lombok.*;
 import java.math.BigDecimal;
@@ -20,6 +21,10 @@ public class MvtStkDto {
 
     private TypeMvtStk typeMvt;
 
+    private SourceMvtStk sourceMvt;
+
+    private Integer idEntreprise;
+
     public static MvtStkDto fromEntity(MvtStk mvtStk) {
         if(mvtStk == null){
             return null;
@@ -29,6 +34,8 @@ public class MvtStkDto {
                 .id(mvtStk.getId())
                 .dateMvt(mvtStk.getDateMvt())
                 .quantite(mvtStk.getQuantite())
+                .sourceMvt(mvtStk.getSourceMvt())
+                .idEntreprise(mvtStk.getId())
                 .build();
     }
 
@@ -41,6 +48,8 @@ public class MvtStkDto {
         mvtStk.setId(mvtStkDto.getId());
         mvtStk.setDateMvt(mvtStkDto.getDateMvt());
         mvtStk.setQuantite(mvtStkDto.getQuantite());
+        mvtStk.setSourceMvt(mvtStkDto.getSourceMvt());
+        mvtStk.setIdEntreprise(mvtStkDto.getIdEntreprise());
 
         return mvtStk;
 

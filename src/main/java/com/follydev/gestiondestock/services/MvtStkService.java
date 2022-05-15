@@ -2,15 +2,22 @@ package com.follydev.gestiondestock.services;
 
 import com.follydev.gestiondestock.dto.MvtStkDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface MvtStkService {
 
-    MvtStkDto save(MvtStkDto mvtStkDto);
+    BigDecimal stockReelArticle(Integer idArticle);
 
-    MvtStkDto findById(Integer id);
+    List<MvtStkDto> mvtStkDto(Integer idArticle);
 
-    List<MvtStkDto> findAll();
+    MvtStkDto entreeStock(MvtStkDto mvtStkDto);
 
-    void delete(Integer id);
+    MvtStkDto sortieStock(MvtStkDto mvtStkDto);
+
+    MvtStkDto correctionStockPos(MvtStkDto mvtStkDto);
+
+    MvtStkDto correctionStockNeg(MvtStkDto mvtStkDto);
+
+
 }

@@ -8,6 +8,7 @@ import com.follydev.gestiondestock.exceptions.InvalidOperationException;
 import com.follydev.gestiondestock.models.*;
 import com.follydev.gestiondestock.repository.*;
 import com.follydev.gestiondestock.services.CommandeFournisseurService;
+import com.follydev.gestiondestock.services.MvtStkService;
 import com.follydev.gestiondestock.validators.ArticleValidator;
 import com.follydev.gestiondestock.validators.CommandeFournisseurValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,16 +31,18 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
     private LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository;
     private FournisseurRepository fournisseurRepository;
     private ArticleRepository articleRepository;
+    private MvtStkService mvtStkService;
 
     @Autowired
     public CommandeFournisseurServiceImpl(CommandeFournisseurRepository commandeFournisseurRepository,
     LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository, FournisseurRepository fournisseurRepository,
-            ArticleRepository articleRepository) {
+            ArticleRepository articleRepository, MvtStkService mvtStkService) {
 
         this.commandeFournisseurRepository = commandeFournisseurRepository;
         this.ligneCommandeFournisseurRepository = ligneCommandeFournisseurRepository;
         this.fournisseurRepository = fournisseurRepository;
         this.articleRepository = articleRepository;
+        this.mvtStkService = mvtStkService;
 
     }
     @Override
@@ -136,13 +140,15 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
                     ErrorCodes.COMMANDE_FOURNISSEUR_NOT_UNCHANGEABLE);
         }
 
-        CommandeFournisseurDto CommandeFournisseur = checkEtatCommande(idCommande);
+        CommandeFournisseurDto commandeFournisseur = checkEtatCommande(idCommande);
+        commandeFournisseur.setEtatCommande(etatCommande);
 
-        CommandeFournisseur.setEtatCommande(etatCommande);
+        CommandeFournisseur savedCommande = commandeFournisseurRepository.save(CommandeFournisseurDto.toEntity(commandeFournisseur));
+        if(commandeFournisseur.isCommandeLivree()){
+            updateMvtStk(idCommande);
+        }
 
-        return CommandeFournisseurDto.fromEntity(
-                commandeFournisseurRepository.save(CommandeFournisseurDto.toEntity(CommandeFournisseur))
-        );
+        return CommandeFournisseurDto.fromEntity(savedCommande);
     }
 
     @Override
@@ -218,6 +224,8 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
         return commandeFournisseur;
     }
 
+
+
     @Override
     public CommandeFournisseurDto deleteArticle(Integer idCommande, Integer idLigneCommande) {
         checkIdCommande(idCommande);
@@ -234,7 +242,7 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 
     @Override
     public List<LigneCommandeFournisseurDto> findAllLigneCommandeFournisseurByCommandeFournisseurId(Integer idCommande) {
-        return ligneCommandeFournisseurRepository.findAllByCommandeFournisseurId(idCommande).stream()
+        return ligneCommandeFournisseurRepository.findAllByCommandeFournisseursId(idCommande).stream()
                 .map(LigneCommandeFournisseurDto::fromEntity)
                 .collect(Collectors.toList());
     }
@@ -290,5 +298,21 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
                     ErrorCodes.COMMANDE_FOURNISSEUR_NOT_UNCHANGEABLE);
         }
         return ligneCommandeFournisseurOptional;
+    }
+
+    private void updateMvtStk(Integer idCommande){
+        List<LigneCommandeFournisseur> ligneCommandeFournisseurs = ligneCommandeFournisseurRepository.findAllByCommandeFournisseursId(idCommande);
+        ligneCommandeFournisseurs.forEach(lig -> {
+            MvtStkDto mvtStkDto = MvtStkDto.builder()
+                    .article(ArticleDto.fromEntity(lig.getArticle()))
+                    .dateMvt(Instant.now())
+                    .typeMvt(TypeMvtStk.ENTREE)
+                    .sourceMvt(SourceMvtStk.COMMANDE_FOURNISSEUR)
+                    .quantite(lig.getQuantite())
+                    .idEntreprise(lig.getIdEntreprise())
+                    .build();
+
+            mvtStkService.entreeStock(mvtStkDto);
+        });
     }
 }

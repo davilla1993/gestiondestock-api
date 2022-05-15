@@ -1,5 +1,14 @@
 package com.follydev.gestiondestock.utils;
 
+import com.follydev.gestiondestock.dto.ArticleDto;
+import com.follydev.gestiondestock.exceptions.EntityNotFoundException;
+import com.follydev.gestiondestock.exceptions.ErrorCodes;
+import com.follydev.gestiondestock.models.Article;
+import com.follydev.gestiondestock.validators.ArticleValidator;
+
+import java.util.List;
+import java.util.Optional;
+
 public interface Constants {
 
     public String APP_ROOT = "gestiondestock/v1";
@@ -40,4 +49,5 @@ public interface Constants {
     String DELETE_UTILISATEUR_ENDPOINT = UTILISATEUR_ENDPOINT + "/delete/{idUtilisateur}";
 
     String AUTHENTICATION_ENDPOINT = APP_ROOT + "/auth";
+
 }
