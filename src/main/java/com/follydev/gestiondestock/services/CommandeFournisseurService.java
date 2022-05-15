@@ -19,7 +19,7 @@ public interface CommandeFournisseurService {
 
     CommandeFournisseurDto updateFournisseur(Integer idCommande, Integer idFournisseur);
 
-    CommandeFournisseurDto updateAticle(Integer idCommande, Integer idLigneCommande, Integer idArticle);
+    CommandeFournisseurDto updateArticle(Integer idCommande, Integer idLigneCommande, Integer idArticle);
 
     CommandeFournisseurDto deleteArticle(Integer idCommande, Integer idLigneCommande);
 

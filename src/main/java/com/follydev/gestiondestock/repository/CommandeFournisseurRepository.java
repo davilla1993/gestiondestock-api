@@ -1,5 +1,6 @@
 package com.follydev.gestiondestock.repository;
 
+import com.follydev.gestiondestock.models.CommandeClient;
 import com.follydev.gestiondestock.models.CommandeFournisseur;
 import org.springframework.data.jpa.repository.JpaRepository;
 

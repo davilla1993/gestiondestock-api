@@ -1,11 +1,17 @@
 package com.follydev.gestiondestock.services.impl;
 
 import com.follydev.gestiondestock.dto.ArticleDto;
+import com.follydev.gestiondestock.dto.LigneCommandeClientDto;
+import com.follydev.gestiondestock.dto.LigneCommandeFournisseurDto;
+import com.follydev.gestiondestock.dto.LigneVenteDto;
 import com.follydev.gestiondestock.exceptions.EntityNotFoundException;
 import com.follydev.gestiondestock.exceptions.ErrorCodes;
 import com.follydev.gestiondestock.exceptions.InvalidEntityException;
 import com.follydev.gestiondestock.models.Article;
 import com.follydev.gestiondestock.repository.ArticleRepository;
+import com.follydev.gestiondestock.repository.LigneCommandeClientRepository;
+import com.follydev.gestiondestock.repository.LigneCommandeFournisseurRepository;
+import com.follydev.gestiondestock.repository.LigneVenteRepository;
 import com.follydev.gestiondestock.services.ArticleService;
 import com.follydev.gestiondestock.validators.ArticleValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +28,19 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl implements ArticleService {
 
     private ArticleRepository articleRepository;
+    private LigneVenteRepository venteRepository;
+    private LigneCommandeFournisseurRepository commandeFournisseurRepository;
+    private LigneCommandeClientRepository commandeClientRepository;
 
     @Autowired
-    public ArticleServiceImpl(ArticleRepository articleRepository){
+    public ArticleServiceImpl(ArticleRepository articleRepository, LigneVenteRepository venteRepository,
+                              LigneCommandeFournisseurRepository commandeFournisseurRepository,
+                              LigneCommandeClientRepository commandeClientRepository
+){
         this.articleRepository = articleRepository;
+        this.venteRepository = venteRepository;
+        this.commandeFournisseurRepository = commandeFournisseurRepository;
+        this.commandeClientRepository = commandeClientRepository;
     }
 
     @Override
@@ -78,6 +93,34 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleDto> findAll() {
         return articleRepository.findAll().stream()
                 .map(ArticleDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LigneVenteDto> findHistoriqueVentes(Integer idArticle) {
+        return venteRepository.findAllByArticleId(idArticle).stream()
+                .map(LigneVenteDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LigneCommandeClientDto> findHistoriqueCommandeClient(Integer idArticle) {
+        return commandeClientRepository.findAllByArticleId(idArticle).stream()
+                .map(LigneCommandeClientDto :: fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LigneCommandeFournisseurDto> findHistoriqueCommandeFournisseur(Integer idArticle) {
+        return commandeFournisseurRepository.findAllByArticleId(idArticle).stream()
+                .map(LigneCommandeFournisseurDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ArticleDto> findAllArticleByIdCategory(Integer idCatgegory) {
+        return articleRepository.findAllByCategoryId(idCatgegory).stream()
+                .map(ArticleDto:: fromEntity)
                 .collect(Collectors.toList());
     }
 

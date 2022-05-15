@@ -91,7 +91,7 @@ public interface CommandeClientApi {
     @GetMapping(APP_ROOT + "/commandeClients/LigneCommande/{idCommande}")
     @ApiOperation(value = "Consulter toutes les lignes commandes", notes = "Cette méthode permet de toutes les lignes commandes relatives à une commande", responseContainer = "List<CommandeClientDto.class>")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "L'article a été supprimé avec succès"),
+            @ApiResponse(code = 200, message = "La liste de toutes les lignes commandes clients / Une liste vide"),
     })
     ResponseEntity<List<LigneCommandeClientDto>> findAllLignesCommandesClientsByCommandeClientId(@PathVariable("idCommande") Integer idCommande);
 
