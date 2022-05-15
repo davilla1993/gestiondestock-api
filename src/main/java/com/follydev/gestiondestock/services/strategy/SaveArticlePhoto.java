@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.InputStream;
 
-@Service
+@Service("articleStrategy")
 @Slf4j
 public class SaveArticlePhoto implements Strategy<ArticleDto>{
 

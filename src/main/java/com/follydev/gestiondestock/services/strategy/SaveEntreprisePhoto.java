@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.InputStream;
 
-@Service
+@Service("entrepriseStrategy")
 @Slf4j
 public class SaveEntreprisePhoto implements Strategy<EntrepriseDto>{
 
