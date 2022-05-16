@@ -1,5 +1,6 @@
 package com.follydev.gestiondestock.services;
 
+import com.follydev.gestiondestock.dto.ChangerMotDePasseUtilisateurDto;
 import com.follydev.gestiondestock.dto.UtilisateurDto;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface UtilisateurService {
     List<UtilisateurDto> findAll();
 
     void delete(Integer id);
+
+    UtilisateurDto changerMotDePasse(ChangerMotDePasseUtilisateurDto dto);
 }

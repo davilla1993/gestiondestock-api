@@ -4,6 +4,9 @@ import com.follydev.gestiondestock.dto.CategoryDto;
 import com.follydev.gestiondestock.exceptions.EntityNotFoundException;
 import com.follydev.gestiondestock.exceptions.ErrorCodes;
 import com.follydev.gestiondestock.exceptions.InvalidEntityException;
+import com.follydev.gestiondestock.exceptions.InvalidOperationException;
+import com.follydev.gestiondestock.models.Article;
+import com.follydev.gestiondestock.repository.ArticleRepository;
 import com.follydev.gestiondestock.repository.CategoryRepository;
 import com.follydev.gestiondestock.services.CategoryService;
 import com.follydev.gestiondestock.validators.CategoryValidator;
@@ -19,12 +22,15 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
 
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
+    private ArticleRepository articleRepository;
+
 
     @Autowired
-    CategoryServiceImpl(CategoryRepository categoryRepository){
+    CategoryServiceImpl(CategoryRepository categoryRepository, ArticleRepository articleRepository){
 
         this.categoryRepository = categoryRepository;
+        this.articleRepository = articleRepository;
     }
 
     @Override
@@ -83,6 +89,11 @@ public class CategoryServiceImpl implements CategoryService {
         if(id == null) {
             log.error("Category ID is null");
             return;
+        }
+        List<Article> articles = articleRepository.findAllByCategoryId(id);
+        if(!articles.isEmpty()){
+            throw new InvalidOperationException("Impossible de supprimer cette catégorie car elle est contient plusieurs articles",
+                    ErrorCodes.CATEGORY_ALREADY_IN_USE);
         }
 
         categoryRepository.deleteById(id);

@@ -253,6 +253,11 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
             log.error("Commande client ID is NULL");
             return;
         }
+        List<LigneCommandeFournisseur> ligneCommandeFournisseurs = ligneCommandeFournisseurRepository.findAllByCommandeFournisseursId(id);
+        if(!ligneCommandeFournisseurs.isEmpty()){
+            throw new InvalidOperationException("Impossible de supprimer cette commande fournisseur car elle rattachée à un fournisseur",
+                    ErrorCodes.COMMANDE_FOURNISSEUR_ALREADY_IN_USE);
+        }
         commandeFournisseurRepository.deleteById(id);
     }
 

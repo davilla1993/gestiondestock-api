@@ -4,7 +4,10 @@ import com.follydev.gestiondestock.dto.ClientDto;
 import com.follydev.gestiondestock.exceptions.EntityNotFoundException;
 import com.follydev.gestiondestock.exceptions.ErrorCodes;
 import com.follydev.gestiondestock.exceptions.InvalidEntityException;
+import com.follydev.gestiondestock.exceptions.InvalidOperationException;
+import com.follydev.gestiondestock.models.CommandeClient;
 import com.follydev.gestiondestock.repository.ClientRepository;
+import com.follydev.gestiondestock.repository.CommandeClientRepository;
 import com.follydev.gestiondestock.services.ClientService;
 import com.follydev.gestiondestock.validators.ClientValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +22,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ClientServiceImpl implements ClientService {
 
-    ClientRepository clientRepository;
+    private ClientRepository clientRepository;
+    private CommandeClientRepository commandeClientRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository){
+    public ClientServiceImpl(ClientRepository clientRepository, CommandeClientRepository commandeClientRepository){
 
         this.clientRepository = clientRepository;
+        this.commandeClientRepository = commandeClientRepository;
     }
     @Override
     public ClientDto save(ClientDto clientDto) {
@@ -82,6 +87,11 @@ public class ClientServiceImpl implements ClientService {
         if(id == null) {
             log.error("Category ID is null");
             return;
+        }
+        List<CommandeClient> commandeClients = commandeClientRepository.findAllByClientId(id);
+        if(!commandeClients.isEmpty()){
+            throw new InvalidOperationException("Impossible de supprimer ce client car il est rattaché à plusieurs commandes",
+                    ErrorCodes.CLIENT_ALREADY_IN_USE);
         }
 
         clientRepository.deleteById(id);

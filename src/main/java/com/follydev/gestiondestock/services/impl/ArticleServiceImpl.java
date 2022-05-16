@@ -7,7 +7,10 @@ import com.follydev.gestiondestock.dto.LigneVenteDto;
 import com.follydev.gestiondestock.exceptions.EntityNotFoundException;
 import com.follydev.gestiondestock.exceptions.ErrorCodes;
 import com.follydev.gestiondestock.exceptions.InvalidEntityException;
+import com.follydev.gestiondestock.exceptions.InvalidOperationException;
 import com.follydev.gestiondestock.models.Article;
+import com.follydev.gestiondestock.models.LigneCommandeClient;
+import com.follydev.gestiondestock.models.LigneVente;
 import com.follydev.gestiondestock.repository.ArticleRepository;
 import com.follydev.gestiondestock.repository.LigneCommandeClientRepository;
 import com.follydev.gestiondestock.repository.LigneCommandeFournisseurRepository;
@@ -129,6 +132,18 @@ public class ArticleServiceImpl implements ArticleService {
         if(id == null){
             log.error("Article ID is null");
             return ;
+        }
+        List<LigneCommandeClient> ligneCommandeClients = commandeClientRepository.findAllByArticleId(id);
+        if(!ligneCommandeClients.isEmpty()){
+            throw new InvalidOperationException("Impossible de supprimer cet article car il est lié à plusieurs commandes",
+                    ErrorCodes.ARTICLE_ALREADY_IN_USE);
+        }
+
+        List<LigneVente> ligneVentes = venteRepository.findAllByArticleId(id);
+        if(!ligneVentes.isEmpty()){
+            throw new InvalidOperationException("Impossible de supprimer cet article car il est lié à plusieurs ventes",
+                    ErrorCodes.ARTICLE_ALREADY_IN_USE);
+
         }
 
         articleRepository.deleteById(id);

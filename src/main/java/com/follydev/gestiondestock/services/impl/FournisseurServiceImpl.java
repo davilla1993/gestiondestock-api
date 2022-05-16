@@ -3,6 +3,10 @@ import com.follydev.gestiondestock.dto.FournisseurDto;
 import com.follydev.gestiondestock.exceptions.EntityNotFoundException;
 import com.follydev.gestiondestock.exceptions.ErrorCodes;
 import com.follydev.gestiondestock.exceptions.InvalidEntityException;
+import com.follydev.gestiondestock.exceptions.InvalidOperationException;
+import com.follydev.gestiondestock.models.CommandeClient;
+import com.follydev.gestiondestock.models.CommandeFournisseur;
+import com.follydev.gestiondestock.repository.CommandeFournisseurRepository;
 import com.follydev.gestiondestock.repository.FournisseurRepository;
 import com.follydev.gestiondestock.services.FournisseurService;
 import com.follydev.gestiondestock.validators.FournisseurValidator;
@@ -17,11 +21,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FournisseurServiceImpl implements FournisseurService {
 
-    FournisseurRepository fournisseurRepository;
+    private FournisseurRepository fournisseurRepository;
+    private CommandeFournisseurRepository commandeFournisseurRepository;
 
     @Autowired
-    public FournisseurServiceImpl(FournisseurRepository fournisseurRepository){
+    public FournisseurServiceImpl(FournisseurRepository fournisseurRepository,
+                                  CommandeFournisseurRepository commandeFournisseurRepository){
         this.fournisseurRepository = fournisseurRepository;
+        this.commandeFournisseurRepository = commandeFournisseurRepository;
     }
 
     @Override
@@ -68,6 +75,11 @@ public class FournisseurServiceImpl implements FournisseurService {
             return;
         }
 
+        List<CommandeFournisseur> commandeFournisseurs = commandeFournisseurRepository.findAllByFournisseurId(id);
+        if(!commandeFournisseurs.isEmpty()){
+            throw new InvalidOperationException("Impossible de supprimer ce fournisseur car il est rattaché à plusieurs commandes",
+                    ErrorCodes.FOURNISSEUR_ALREADY_IN_USE);
+        }
         fournisseurRepository.deleteById(id);
     }
 }
