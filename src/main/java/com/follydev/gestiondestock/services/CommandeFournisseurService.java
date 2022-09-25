@@ -3,6 +3,7 @@ package com.follydev.gestiondestock.services;
 import com.follydev.gestiondestock.dto.CommandeFournisseurDto;
 import com.follydev.gestiondestock.dto.LigneCommandeFournisseurDto;
 import com.follydev.gestiondestock.models.CommandeFournisseur;
+import com.follydev.gestiondestock.models.EtatCommande;
 
 import java.math.BigDecimal;
 import java.util.List;

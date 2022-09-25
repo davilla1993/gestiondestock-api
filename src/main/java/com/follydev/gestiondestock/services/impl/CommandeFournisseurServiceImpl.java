@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -90,6 +91,31 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
     }
 
     @Override
+    public CommandeFournisseurDto updateEtatCommande(Integer idCommande, EtatCommande etatCommande) {
+        return null;
+    }
+
+    @Override
+    public CommandeFournisseurDto updateQuantiteCommande(Integer idCommande, Integer idLigneCommande, BigDecimal quantite) {
+        return null;
+    }
+
+    @Override
+    public CommandeFournisseurDto updateFournisseur(Integer idCommande, Integer idFournisseur) {
+        return null;
+    }
+
+    @Override
+    public CommandeFournisseurDto updateAticle(Integer idCommande, Integer idLigneCommande, Integer idArticle) {
+        return null;
+    }
+
+    @Override
+    public CommandeFournisseurDto deleteArticle(Integer idCommande, Integer idLigneCommande) {
+        return null;
+    }
+
+    @Override
     public CommandeFournisseurDto findById(Integer id) {
         if(id == null){
             log.error("Commande fournisseur ID is NULL");
@@ -123,6 +149,12 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
     }
 
     @Override
+    public List<LigneCommandeFournisseurDto> findAllLigneCommandeFournisseurByCommandeFournisseurId(Integer idCommande) {
+        return null;
+    }
+
+
+    @Override
     public void delete(Integer id) {
         if(id == null) {
             log.error("Commande client ID is NULL");
@@ -130,4 +162,6 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
         }
         commandeFournisseurRepository.deleteById(id);
     }
+
+
 }

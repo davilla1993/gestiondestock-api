@@ -15,31 +15,37 @@ public class VenteController implements VentesApi {
 
     @Autowired
     public VenteController(VentesService ventesService) {
+
         this.ventesService = ventesService;
     }
 
     @Override
     public VentesDto save(VentesDto ventesDto) {
+
         return ventesService.save(ventesDto);
     }
 
     @Override
     public VentesDto findById(Integer id) {
+
         return ventesService.findById(id);
     }
 
     @Override
     public VentesDto findByCode(String code) {
+
         return ventesService.findByCode(code);
     }
 
     @Override
     public List<VentesDto> findAll() {
+
         return ventesService.findAll();
     }
 
     @Override
     public void delete(Integer id) {
+
         ventesService.delete(id);
     }
 }

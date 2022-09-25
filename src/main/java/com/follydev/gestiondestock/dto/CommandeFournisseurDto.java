@@ -1,6 +1,7 @@
 package com.follydev.gestiondestock.dto;
 
 import com.follydev.gestiondestock.models.CommandeFournisseur;
+import com.follydev.gestiondestock.models.EtatCommande;
 import lombok.*;
 
 import java.time.Instant;
@@ -16,6 +17,10 @@ public class CommandeFournisseurDto {
     private Instant dateCommande;
 
     private FournisseurDto fournisseur;
+
+    private EtatCommande etatCommande;
+
+    private Integer idEntreprise;
 
     private List<LigneCommandeFournisseurDto> ligneCommandeFournisseurs;
 
