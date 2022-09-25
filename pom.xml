@@ -14,7 +14,7 @@
     <name>gestiondestock_api</name>
     <description>Une API pour une application de gestion de stock</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -132,7 +132,7 @@
                                 <contact>
                                     <email>carlogbossou93@gmail.com</email>
                                     <name>GBOSSOU CARLO</name>
-                                    <url>http://follytech.herokuapp.com</url>
+                                    <url>http://gbossoufolly.tech</url>
                                 </contact>
                                 <outputPath>${project.build.directory}/generated-sources/swagger-tmp/src/main/java</outputPath>
                                 <outputFormat>json</outputFormat>
