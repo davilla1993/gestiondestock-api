@@ -22,3 +22,6 @@ flickr:
   apiSecret: ${FLICKR_API_SECRET}
   appKey: ${FLICKR_APP_KEY}
   appSecret: ${FLICKR_APP_SECRET}
+
+
+#  /generated-sources/swagger-tmp/src/main/java

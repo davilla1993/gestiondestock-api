@@ -134,7 +134,7 @@
                                     <name>GBOSSOU CARLO</name>
                                     <url>http://gbossoufolly.tech</url>
                                 </contact>
-                                <outputPath>${project.build.directory}/generated-sources/swagger-tmp/src/main/java</outputPath>
+                                <outputPath>${project.build.directory}</outputPath>
                                 <outputFormat>json</outputFormat>
                                 <swaggerApiReader>com.github.kongchen.swagger.docgen.reader.SpringMvcApiReader</swaggerApiReader>
                                 <swaggerDirectory>${project.build.directory}</swaggerDirectory>
