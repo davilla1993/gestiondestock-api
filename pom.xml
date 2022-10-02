@@ -134,11 +134,11 @@
                                     <name>GBOSSOU CARLO</name>
                                     <url>http://gbossoufolly.tech</url>
                                 </contact>
-<!--                                <outputPath>${project.build.directory}</outputPath>-->
-                                <outputFormat>json</outputFormat>
-                                <swaggerApiReader>com.github.kongchen.swagger.docgen.reader.SpringMvcApiReader</swaggerApiReader>
-                                <swaggerDirectory>${project.build.directory}</swaggerDirectory>
                             </info>
+                            <outputPath>${project.build.directory}</outputPath>
+                            <outputFormats>json</outputFormats>
+                            <swaggerApiReader>com.github.kongchen.swagger.docgen.reader.SpringMvcApiReader</swaggerApiReader>
+                            <swaggerDirectory>${project.build.directory}</swaggerDirectory>
                         </apiSource>
                     </apiSources>
                 </configuration>
